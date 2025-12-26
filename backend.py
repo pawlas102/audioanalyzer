@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import librosa
 
 app = Flask(__name__)
@@ -46,6 +46,9 @@ def analyze_audio(file_path):
 
     return frames
 
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/analyze")
 def analyze():
@@ -54,4 +57,4 @@ def analyze():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

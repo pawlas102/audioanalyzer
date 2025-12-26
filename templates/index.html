@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Analyzer</title>
+</head>
+<body>
+    <h1>Audio Analyzer</h1>
+    <button id="analyzeBtn">Analizuj plik</button>
+    <ul id="result"></ul>
+
+    <script>
+        const btn = document.getElementById("analyzeBtn");
+        const resultList = document.getElementById("result");
+
+        btn.addEventListener("click", async () => {
+            resultList.innerHTML = "Ładowanie...";
+
+
+            const response = await fetch("/analyze");
+            const data = await response.json();
+
+
+            resultList.innerHTML = "";
+
+
+            data.frames.slice(0, 20).forEach(frame => {
+                const li = document.createElement("li");
+                li.textContent = `Frame ${frame.frame}: F0 = ${frame.f0}, Note = ${frame.note}, Voiced = ${frame.voiced}, Prob = ${frame.prob}`;
+                resultList.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>
